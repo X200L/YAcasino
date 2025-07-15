@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Казино имени Артема</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="logotip">
+    <img src="ya.svg">
+    <span class="title">Казино</span>
+  </div>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1>Казино имени Артема и Яндекса</h1>
+  <div class="slot-machine">
+    <div class="credits">Кредиты: <span id="credits">100</span></div>
+    <div class="reels">
+      <div class="reel" id="reel1">🍒</div>
+      <div class="reel" id="reel2">🍋</div>
+      <div class="reel" id="reel3">🍊</div>
+      <div class="reel" id="reel4">🍉</div>
+      <div class="reel" id="reel5">🍇</div>
+    </div>
+    <button class="spin-btn" id="spinBtn">Крутить</button>
+    <div class="message" id="message"></div>
+    <button class="add-credits-btn-secondary" id="openAddCreditsModal">Додеп</button>
+    <button class="debt-btn" id="openDebtModal">Проверить задолженность</button>
+    <button class="team-btn" id="openTeamModal">О команде</button>
+    <button class="shop-btn" id="openShopModal">Магазин</button>
+  </div>
+  <div class="modal" id="addCreditsModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeAddCreditsModal" aria-label="Закрыть">×</button>
+      <div class="modal-title">оплатить яндекс 180 в кредит</div>
+      <form class="add-credits-form" id="addCreditsForm" autocomplete="off">
+        <input type="number" id="addCreditsInput" min="1" max="180" placeholder="Сколько докинуть? (до 180)" required>
+        <button type="submit" class="add-credits-btn">Додеп</button>
+      </form>
+      <div class="modal-caption">Можно додепнуть от 1 до 180</div>
+    </div>
+  </div>
+  <div class="modal" id="debtModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeDebtModal" aria-label="Закрыть">×</button>
+      <div class="modal-title add-credits-modal-title">
+        <span class="dodep-title-blue">Додеп</span><span class="dodep-title-red">Услуги</span>
+      </div>
+      <div class="modal-debt-text" id="debtText"></div>
+    </div>
+  </div>
+  <div class="modal" id="welcomeModal">
+    <div class="modal-content">
+      <div class="modal-title" style="font-size:1.25rem; font-weight:700; text-align:center; margin-bottom:16px;">Добро пожаловать в Казино Яндекс!</div>
+      <div style="font-size:1.05rem; color:#444; text-align:center; margin-bottom:18px;">
+        <b>Ваша предыстория:</b><br>
+        В 2025 году Кейс БВ от яндекса запускает уникальную подписку <span style="color:#1A5AFF; font-weight:600;">Яндекс 180</span> — теперь вы можете получить ничего за 180 рублей<br><br>
+        <span style="color:#E53935; font-weight:600;">Оформите виртуальную подписку Яндекс 180</span> и получите до 180 кредитов в долг прямо сейчас.<br><br>
+      </div>
+      <button class="debt-btn" id="closeWelcomeModal" style="margin-top:8px;">Продолжить</button>
+    </div>
+  </div>
+  <div class="modal" id="teamModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeTeamModal" aria-label="Закрыть">×</button>
+      <div class="modal-title" style="text-align:center; font-size:1.18rem; font-weight:700; margin-bottom:16px;">Наша команда</div>
+      <div style="font-size:1.05rem; color:#444; text-align:center; margin-bottom:12px;">
+        <div><b>Александр</b> — разработчик</div>
+        <div><b>Артем</b> — амбасадор</div>
+      </div>
+      <a href="https://github.com/X200L/YAcasino" target="_blank" style="display:block; text-align:center; color:#1A5AFF; font-weight:500; text-decoration:none; margin-top:10px;">GitHub проекта</a>
+    </div>
+  </div>
+  <div class="modal" id="shopModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeShopModal" aria-label="Закрыть">×</button>
+      <div class="modal-title" style="text-align:center; font-size:1.18rem; font-weight:700; margin-bottom:16px;">Магазин призов</div>
+      <div class="shop-list">
+        <div class="shop-item">
+          <span class="shop-item-name">Бесплатный спин</span>
+          <span class="shop-item-price">30 кредитов</span>
+          <button class="shop-buy-btn" disabled>Купить</button>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-name">VIP-статус (1 день)</span>
+          <span class="shop-item-price">100 кредитов</span>
+          <button class="shop-buy-btn" disabled>Купить</button>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-name">Стикер "Везунчик"</span>
+          <span class="shop-item-price">60 кредитов</span>
+          <button class="shop-buy-btn" disabled>Купить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+    <span id="themeIcon">🌙</span>
+  </button>
+  <script src="slot.js"></script>
+</body>
+</html> 
