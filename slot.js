@@ -43,7 +43,7 @@ function spinReels() {
       winAmount = 50;
     } else if (result[0] === result[1] || result[1] === result[2] || result[0] === result[2]) {
       win = true;
-      winAmount = 15;
+      winAmount = 10;
     }
     if (win) {
       updateCredits(winAmount);
