@@ -18,6 +18,7 @@
   <h1></h1>
   <h1>Казино имени Артема и Яндекса</h1>
   <div class="slot-machine">
+    <div class="boost-indicator" id="boostIndicator" style="display:none;"></div>
     <div class="credits">Кредиты: <span id="credits">100</span></div>
     <div class="reels">
       <div class="reel" id="reel1">🍒</div>
@@ -55,7 +56,7 @@
   </div>
   <div class="modal" id="welcomeModal">
     <div class="modal-content">
-      <div class="modal-title" style="font-size:1.25rem; font-weight:700; text-align:center; margin-bottom:16px;">Добро пожаловать в Казино Яндекс!</div>
+      <div class="modal-title" style="font-size:1.25rem; font-weight:700; text-align:center; margin-bottom:16px;">Добро пожаловать в Я-Казино!</div>
       <div style="font-size:1.05rem; color:#444; text-align:center; margin-bottom:18px;">
         <b>Ваша предыстория:</b><br>
         В 2025 году Кейс БВ от яндекса запускает уникальную подписку <span style="color:#1A5AFF; font-weight:600;">Яндекс 180</span> — теперь вы можете получить ничего за 180 рублей<br><br>
@@ -83,17 +84,22 @@
         <div class="shop-item">
           <span class="shop-item-name">Бесплатный спин</span>
           <span class="shop-item-price">30 кредитов</span>
-          <button class="shop-buy-btn" disabled>Купить</button>
+          <button class="shop-buy-btn" id="buyFreeSpin">Купить</button>
         </div>
         <div class="shop-item">
           <span class="shop-item-name">VIP-статус (1 день)</span>
           <span class="shop-item-price">100 кредитов</span>
-          <button class="shop-buy-btn" disabled>Купить</button>
+          <button class="shop-buy-btn" id="buyVip">Купить</button>
         </div>
         <div class="shop-item">
           <span class="shop-item-name">Стикер "Везунчик"</span>
           <span class="shop-item-price">60 кредитов</span>
-          <button class="shop-buy-btn" disabled>Купить</button>
+          <button class="shop-buy-btn" id="buySticker">Купить</button>
+        </div>
+        <div class="shop-item">
+          <span class="shop-item-name">Повышенные шансы (10 спинов)</span>
+          <span class="shop-item-price">120 кредитов</span>
+          <button class="shop-buy-btn" id="buyLuck">Купить</button>
         </div>
       </div>
     </div>
