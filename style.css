@@ -720,3 +720,28 @@ body.dark .shop-buy-btn {
     border-radius: 6px;
   }
 } 
+.boost-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #1A5AFF 60%, #6ea0ff 100%);
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 7px 18px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 12px rgba(26,90,255,0.10);
+  letter-spacing: 0.5px;
+  animation: boost-pulse 1.2s infinite alternate;
+}
+@keyframes boost-pulse {
+  0% { box-shadow: 0 2px 12px rgba(26,90,255,0.10); }
+  100% { box-shadow: 0 4px 24px 2px #1A5AFF44; }
+}
+.shop-buy-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #bfc9e6 !important;
+  color: #fff !important;
+} 
