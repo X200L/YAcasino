@@ -12,6 +12,11 @@ const creditsEl = document.getElementById('credits');
 let credits = 100;
 let spinning = false;
 let totalDeposits = 0;
+let boostSpins = 0;
+let freeSpin = false;
+let vipSpins = 0;
+let stickerSpins = 0;
+const boostIndicator = document.getElementById('boostIndicator');
 function getRandomSymbol() {
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
@@ -23,10 +28,42 @@ function showMessage(text, win = false) {
   message.textContent = text;
   message.className = 'message' + (win ? ' win' : '');
 }
+function updateBoostIndicator() {
+  let arr = [];
+  if (boostSpins > 0) arr.push(`Повышенные шансы: ${boostSpins} спинов`);
+  if (vipSpins > 0) arr.push(`VIP: ${vipSpins} спинов`);
+  if (stickerSpins > 0) arr.push('Стикер "Везунчик"');
+  boostIndicator.style.display = arr.length ? '' : 'none';
+  boostIndicator.textContent = arr.join(' | ');
+}
+function canBuy(cost) {
+  return credits >= cost;
+}
+function showShopMessage(msg) {
+  showMessage(msg, true);
+  setTimeout(() => { if (message.textContent === msg) showMessage(''); }, 1800);
+}
+function updateShopButtons() {
+  const buyLuck = document.getElementById('buyLuck');
+  if (buyLuck) buyLuck.disabled = !canBuy(120) || boostSpins > 0;
+  const buyFreeSpin = document.getElementById('buyFreeSpin');
+  if (buyFreeSpin) buyFreeSpin.disabled = !canBuy(30) || freeSpin;
+  const buyVip = document.getElementById('buyVip');
+  if (buyVip) buyVip.disabled = !canBuy(100) || vipSpins > 0;
+  const buySticker = document.getElementById('buySticker');
+  if (buySticker) buySticker.disabled = !canBuy(60) || stickerSpins > 0;
+}
+updateBoostIndicator();
+updateShopButtons();
+
 function spinReels() {
-  if (spinning || credits <= 0) return;
+  if (spinning || credits <= 0 && !freeSpin) return;
   spinning = true;
-  updateCredits(-5);
+  if (freeSpin) {
+    freeSpin = false;
+  } else {
+    updateCredits(-5);
+  }
   showMessage('Крутим...');
   reels.forEach(r => r.classList.remove('win'));
   let intervals = [];
@@ -44,6 +81,20 @@ function spinReels() {
     let maxCount = Math.max(...Object.values(counts));
     let win = false;
     let winAmount = 0;
+    if (boostSpins > 0) {
+      if (Math.random() < 0.25) {
+        maxCount = 5;
+        for (let i = 0; i < 5; i++) result[i] = result[0];
+      } else if (Math.random() < 0.35) {
+        maxCount = 4;
+        let sym = result[0];
+        for (let i = 0; i < 4; i++) result[i] = sym;
+      } else if (Math.random() < 0.5) {
+        maxCount = 3;
+        let sym = result[0];
+        for (let i = 0; i < 3; i++) result[i] = sym;
+      }
+    }
     if (maxCount === 5) {
       win = true;
       winAmount = 100;
@@ -68,10 +119,21 @@ function spinReels() {
     } else {
       showMessage('Попробуйте еще раз!');
     }
-    if (credits <= 0) {
-      showMessage('Кредиты закончились! Додепните еще!');
+    if (credits <= 0 && !freeSpin) {
+      showMessage('Кредиты закончились! Обновите страницу, чтобы начать заново.');
       spinBtn.disabled = true;
     }
+    if (boostSpins > 0) {
+      boostSpins--;
+    }
+    if (vipSpins > 0) {
+      vipSpins--;
+    }
+    if (stickerSpins > 0) {
+      stickerSpins--;
+    }
+    updateBoostIndicator();
+    updateShopButtons();
     spinning = false;
   }, 1200);
 }
@@ -137,9 +199,9 @@ if (openDebtModal && closeDebtModal && debtModal && debtText) {
     const debt = Math.round(totalDeposits * 1.4);
     debtText.innerHTML = `
       <div class='debt-card-details'>
-        <div class='debt-card-header'>Исполнительский сбор по пост. Казино-Яндекс</div>
+        <div class='debt-card-header'>Исполнительский сбор по пост. Я-казик</div>
         <div class='debt-card-desc'>В рамках дела о виртуальном кредите.\nВ отношении пользователя казино.</div>
-        <div class='debt-card-desc'>УФК по Казино-Яндекс (виртуальный счёт)</div>
+        <div class='debt-card-desc'>УФК по Я-казик (виртуальный счёт)</div>
       </div>
       <div style='display:flex;flex-direction:column;align-items:flex-end;min-width:120px;'>
         <div class='debt-card-amount'>${debt} ₽</div>
@@ -204,5 +266,50 @@ if (shopModal && openShopModal && closeShopModal) {
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') shopModal.classList.remove('active');
+  });
+}
+
+const buyLuck = document.getElementById('buyLuck');
+if (buyLuck) {
+  buyLuck.addEventListener('click', function() {
+    if (boostSpins > 0 || !canBuy(120)) return;
+    updateCredits(-120);
+    boostSpins = 10;
+    updateBoostIndicator();
+    updateShopButtons();
+    showShopMessage('Повышенные шансы активированы на 10 спинов!');
+  });
+}
+const buyFreeSpin = document.getElementById('buyFreeSpin');
+if (buyFreeSpin) {
+  buyFreeSpin.addEventListener('click', function() {
+    if (!canBuy(30) || freeSpin) return;
+    updateCredits(-30);
+    freeSpin = true;
+    updateBoostIndicator();
+    updateShopButtons();
+    showShopMessage('Бесплатный спин куплен! Следующий спин бесплатный.');
+  });
+}
+const buyVip = document.getElementById('buyVip');
+if (buyVip) {
+  buyVip.addEventListener('click', function() {
+    if (!canBuy(100) || vipSpins > 0) return;
+    updateCredits(-100);
+    vipSpins = 10;
+    updateBoostIndicator();
+    updateShopButtons();
+    showShopMessage('VIP-статус активирован на 10 спинов!');
+  });
+}
+const buySticker = document.getElementById('buySticker');
+if (buySticker) {
+  buySticker.addEventListener('click', function() {
+    if (!canBuy(60) || stickerSpins > 0) return;
+    updateCredits(-60);
+    stickerSpins = 10;
+    updateBoostIndicator();
+    updateShopButtons();
+    showShopMessage('Стикер "Везунчик" активирован на 10 спинов!');
   });
 } 
